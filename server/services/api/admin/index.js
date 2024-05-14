@@ -1,11 +1,6 @@
 "use strict";
 
-const mongoose = require("mongoose");
-
-const _ = require("lodash"),
-  md5 = require("md5"),
-  jwt = require("jsonwebtoken"),
-  Models = require("../../../data_access/models");
+const Models = require("../../../data_access/models");
 
 async function test(req,res){
     try {

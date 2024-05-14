@@ -55,7 +55,7 @@ async function adminLogin(req, res){
         let admin = await Models.Admin.findOne(obj).select("-password")
         if(admin && admin._id){
             let hash = md5(new Date() + Math.random());
-            let token = jwt.sign({ session_hash: hash }, process.env.JWT_SECRET, { expiresIn: '1m' });
+            let token = jwt.sign({ session_hash: hash }, process.env.JWT_SECRET, { expiresIn: '1h' });
             await saveNewAdminSession(hash, admin._id)
             return res.status(200).json({
                 success: true,

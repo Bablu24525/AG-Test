@@ -11,8 +11,13 @@ const User = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  file_permissions: {
-    type: Array,
+  permissions: {
+    type: Object,
+    default: {
+      view: true,
+      upload: true,
+      delete: true
+    }
   },
 });
 
@@ -24,7 +29,6 @@ const Admin = new mongoose.Schema({
   },
   password: {
     type: String,
-    unique: true,
     required: true,
   },
 });
@@ -51,6 +55,10 @@ const File = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+  },
+  is_public: {
+    type: Boolean,
+    default: false,
   },
   viewers: {
     type: Array,
