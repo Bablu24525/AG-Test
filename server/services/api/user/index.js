@@ -15,13 +15,13 @@ async function uploadFile(req, res) {
             owner: req.user_id
         }
         let savedFile = await Models.File(obj).save()
-        if(savedFile && savedFile._id){
+        if (savedFile && savedFile._id) {
             return res.status(200).json({
                 success: true,
                 message: "File uploaded successfully",
             })
         }
-        else{
+        else {
             return res.status(400).json({
                 success: false,
                 message: "Something went wrong while uploading",
@@ -55,14 +55,14 @@ async function listOwnFiles(req, res) {
     }
 }
 
-async function getUsers(req,res){
+async function getUsers(req, res) {
     try {
         let users = await Models.User.find({}).select("-password -file_permissions")
         return res.status(200).json({
             success: true,
             message: "Users fetched successfully",
             data: users
-        })  
+        })
     } catch (error) {
         console.log(error)
         return res.status(400).json({
@@ -73,7 +73,7 @@ async function getUsers(req,res){
     }
 }
 
-async function deleteFile(req,res){
+async function deleteFile(req, res) {
     try {
         console.log(req.params.fileId)
         let file = await Models.File.findByIdAndDelete(req.params.fileId)
@@ -82,7 +82,7 @@ async function deleteFile(req,res){
             success: true,
             message: "File deleted successfully",
             data: file
-        })  
+        })
     } catch (error) {
         console.log(error)
         return res.status(400).json({
@@ -93,7 +93,7 @@ async function deleteFile(req,res){
     }
 }
 
-async function shareFileWithUser(req,res){
+async function shareFileWithUser(req, res) {
     try {
         let {
             user_id,
@@ -101,27 +101,27 @@ async function shareFileWithUser(req,res){
             permission_level
         } = req.body
         let check_owner = await Models.File.findOne({ _id: file_id, owner: req.user_id })
-        if(check_owner && check_owner._id){
+        if (check_owner && check_owner._id) {
             let obj = {
                 user_id: new mongoose.Types.ObjectId(user_id),
                 permission: permission_level
             }
-            let file = await Models.File.findOneAndUpdate({ _id: file_id }, {$push:{ viewers: obj }}, { new: true })
-            if(file && file._id){
+            let file = await Models.File.findOneAndUpdate({ _id: file_id }, { $push: { viewers: obj } }, { new: true })
+            if (file && file._id) {
                 return res.status(200).json({
                     success: true,
                     message: "File shared successfully",
                     data: file
                 })
             }
-            else{
+            else {
                 return res.status(400).json({
                     success: false,
                     message: "Something went wrong while sharing file",
                 })
             }
         }
-        else{
+        else {
             return res.status(400).json({
                 success: false,
                 message: "You are not the owner of this file",
@@ -137,9 +137,14 @@ async function shareFileWithUser(req,res){
     }
 }
 
-async function listSharedFiles(req,res){
+async function listSharedFiles(req, res) {
     try {
-        let files = await Models.File.find({ viewers: { $elemMatch: { user_id: req.user_id } } })
+        let files = await Models.File.find({
+            $or: [
+                { viewers: { $elemMatch: { user_id: req.user_id } } },
+                { is_public: true }
+            ]
+        })
         return res.status(200).json({
             success: true,
             message: "Files fetched successfully",
