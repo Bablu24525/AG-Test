@@ -35,7 +35,7 @@ function init(server) {
     res.send("<--- Tp-Auction Server --->");
   });
 
-//   server.use("/api", apiController);
+  server.use("/api", apiController);
   server.use("/auth", authController);
 }
 
