@@ -16,7 +16,8 @@ const User = new mongoose.Schema({
     default: {
       view: true,
       upload: true,
-      delete: true
+      delete: true,
+      download: true
     }
   },
 });
@@ -68,7 +69,8 @@ const File = new mongoose.Schema({
 
 const Group = new mongoose.Schema({
   name: { type: String, required: true },
-  members: { type: Array },
+  members: { type: Array, default: [] },
+  files:{ type:Array, default: [] }
 });
 
 module.exports = {

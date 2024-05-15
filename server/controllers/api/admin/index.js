@@ -7,7 +7,8 @@ const express = require("express"),
 
 
 let router = express.Router();
-router.get("/test", adminApiService.test);
+router.get("/list_users", adminApiService.listUsers);
+router.post("/change_user_permissions", adminApiService.changeUserPermissions);
 
 
 module.exports = router;
