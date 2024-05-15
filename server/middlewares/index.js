@@ -128,7 +128,6 @@ const fileUploader = (req, res, next) => {
 const checkPermissions = (req, res, next) => {
     const permissions = req.user_permissions; // Assuming permissions are stored in req.user.permissions
     // Check if the user has the required permissions
-    console.log(permissions)
     if (req.route.path.includes('/view') && !permissions.view) {
         return res.status(403).json({ message: 'You do not have permission to view files' });
     }

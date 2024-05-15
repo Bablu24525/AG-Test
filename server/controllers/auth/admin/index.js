@@ -5,7 +5,7 @@
 const express = require("express"),
   adminAuthService = require("../../../services/auth/admin"),
   { ValidateRequest } = require("../../../requests"),
-  adminAuthValidations = require("../../../requests/admin/auth");
+  adminAuthValidations = require("../../../requests/auth/admin");
 
 let router = express.Router();
 /* ADMIN LOGIN */

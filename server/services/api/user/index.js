@@ -309,7 +309,6 @@ async function download(req,res){
             return res.status(404).json({ success: false, message: 'File not found' });
         }
         const filePath = path.join(__dirname, '../../../../', file.path);
-        console.log(filePath)
         if (!fs.existsSync(filePath)) {
             return res.status(404).json({ success: false, message: 'File not found on the server' });
         }
