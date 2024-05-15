@@ -9,8 +9,8 @@ const express = require("express"),
 
 let router = express.Router();
 /* ADMIN LOGIN */
-router.post("/register", ValidateRequest, adminAuthValidations.RegistervalidationRulesRequest(), adminAuthService.adminRegister);
-router.post("/login", ValidateRequest, adminAuthValidations.LoginvalidationRulesRequest(), adminAuthService.adminLogin);
+router.post("/register", adminAuthValidations.RegistervalidationRulesRequest(), ValidateRequest, adminAuthService.adminRegister);
+router.post("/login",  adminAuthValidations.LoginvalidationRulesRequest(),ValidateRequest, adminAuthService.adminLogin);
 // router.post("/forgot_password", adminAuthService.forgotPassword);
 // router.post("/reset_password", adminAuthService.resetPassword);
 // router.post("/reset_admin_password", adminAuthService.resetAdminPassword);

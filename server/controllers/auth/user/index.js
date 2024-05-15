@@ -8,7 +8,7 @@ const express = require("express"),
   userAuthValidations = require("../../../requests/user/auth");
 
 let router = express.Router();
-router.post("/register", ValidateRequest, userAuthValidations.RegistervalidationRulesRequest(), userAuthService.userRegister);
-router.post("/login", ValidateRequest, userAuthValidations.LoginvalidationRulesRequest(), userAuthService.userLogin);
+router.post("/register", userAuthValidations.RegistervalidationRulesRequest(),ValidateRequest, userAuthService.userRegister);
+router.post("/login", userAuthValidations.LoginvalidationRulesRequest(), ValidateRequest, userAuthService.userLogin);
 
 module.exports = router;
