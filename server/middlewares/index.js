@@ -191,6 +191,23 @@ const checkOwnerShip = async (req,res,next) => {
     }
 }
 
+const checkOwnerShipSingle = async (req,res,next) => {
+    try {
+        const fileId = req.body.file_id;
+        if (!fileId) {
+            return res.status(400).json({ success: false, message: 'No file ID provided' });
+        }
+        let file = await Models.File.findOne({_id:fileId,owner:req.user_id})
+        if (!file) {
+            return res.status(404).json({ success: false, message: `You Dont have ownership of this file` });
+        }
+        next();
+    } catch (error) {
+        console.error('Error checking file ownership:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+
 const checkDownloadAccess = async (req,res,next) => {
     try {
         let user_id = req.user_id
@@ -209,12 +226,7 @@ const checkDownloadAccess = async (req,res,next) => {
             group_member = true
             return
         }
-        if(file && file.owner.equals(user_id)){
-            next()
-        }else if (viewer === true){
-            next()
-        }
-        else if (group_member === true){
+        if(file && file.owner.equals(user_id) || viewer === true || group_member === true || file.is_public === true){
             next()
         }
         else{
@@ -233,5 +245,6 @@ module.exports = {
     checkPermissions,
     memberCheck,
     checkOwnerShip,
-    checkDownloadAccess
+    checkDownloadAccess,
+    checkOwnerShipSingle
 }

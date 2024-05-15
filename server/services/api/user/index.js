@@ -327,6 +327,37 @@ async function download(req,res){
     }
 }
 
+
+async function changeFilePermission(req, res) {
+  try {
+    let { file_id, is_public } = req.body;
+    let file = await Models.File.findOneAndUpdate(
+      { _id: file_id },
+      { $set: { is_public } },
+      { new: true }
+    );
+    if (file && file._id) {
+      return res.status(200).json({
+        success: true,
+        message: "File permissions updated successfully",
+        data: file,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Something went wrong while updating file permissions",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      success: false,
+      message: "Something went wrong while updating file permissions",
+      error: error,
+    });
+  }
+}
+
 module.exports = {
   uploadFile,
   getUsers,
@@ -338,5 +369,6 @@ module.exports = {
   shareFilesWithGroup,
   getFilesForSpecificGroups,
   listGroups,
-  download
+  download,
+  changeFilePermission
 };

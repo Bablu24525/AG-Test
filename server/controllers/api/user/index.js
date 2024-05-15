@@ -19,5 +19,6 @@ router.post("/create_group", userApiService.createGroup);
 router.get("/list_group", userApiService.listGroups);
 router.delete("/delete/:fileId", middleware.checkPermissions, userApiService.deleteFile);
 router.get("/download/:fileId", middleware.checkPermissions, middleware.checkDownloadAccess, userApiService.download);
+router.post("/change_file_permission", middleware.checkOwnerShipSingle, userApiService.changeFilePermission);
 
 module.exports = router;
