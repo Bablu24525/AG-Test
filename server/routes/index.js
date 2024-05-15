@@ -32,7 +32,7 @@ function init(server) {
   });
 
   server.get("/", function (req, res) {
-    res.send("<--- Tp-Auction Server --->");
+    res.send("<--- AG TEST SERVER --->");
   });
 
   server.use("/api", apiController);
