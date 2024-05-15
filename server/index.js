@@ -20,12 +20,12 @@ let server = express(),
   start;
 
 create = function () {
-dotenv.config()
+  dotenv.config()
   server.use(bodyParser.json());
-  server.use(bodyParser.urlencoded({ extended: false }));
+  server.use(bodyParser.urlencoded({ extended: true }));
 
   server.use(express.json());
-  server.use(express.urlencoded({ extended: false }));
+  server.use(express.urlencoded({ extended: true }));
 
   server.use(express.static("public"));
 
